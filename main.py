@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 import sys, os
+import sys
+print("🚨 Python path used by Streamlit:", sys.executable)
+
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from components.chat import answer_user_query
@@ -71,9 +74,15 @@ if page == "User Panel":
     with st.container():
         st.markdown('<div class="chat-box">', unsafe_allow_html=True)
         for turn in st.session_state.chat_history:
-            st.markdown(f"** You:** {turn['user']}")
-            st.markdown(f"** Bot:** {turn['bot']}")
+            st.markdown(f"**🧑 You:** {turn['user']}")
+            if turn['bot'].startswith("📶") or turn['bot'].startswith("🚫") or turn['bot'].startswith("❌"):
+                st.markdown(f"""<div style="background-color:#f4f4f4;padding:1rem;border-left:5px solid #444;">
+<pre>{turn['bot']}</pre>
+</div>""", unsafe_allow_html=True)
+            else:
+                st.markdown(f"**🤖 Bot:** {turn['bot']}")
         st.markdown('</div>', unsafe_allow_html=True)
+
 
     # Chat Input at Bottom
     with st.container():
